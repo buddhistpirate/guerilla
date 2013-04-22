@@ -1,17 +1,25 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"guerillaradio"
 	"os"
 )
 
 func main() {
+
+	directory := flag.String("directory", "fixtures", "Directory of text files to load")
+	network_interface := flag.String("interface", ":8080", "Network Interface:Port to listen on")
+	flag.Parse()
+
 	library := guerillaradio.Library{}
-	err := library.AddDirectory("fixtures")
-	if err != nil {
-		fmt.Println("Error opening fixtures")
+	err := library.AddDirectory(*directory)
+	if err != nil || library.Size() == 0 {
+		fmt.Printf("Error loading %v, %v files loaded: %v\n", *directory, library.Size(), err)
 		os.Exit(1)
 	}
-	guerillaradio.Listen(&library, ":8080)
+	fmt.Printf("Loaded %v Files from %v\n", library.Size(), *directory)
+
+	guerillaradio.Listen(&library, *network_interface)
 }
