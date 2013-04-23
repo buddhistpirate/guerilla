@@ -3,7 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
-	"guerillaradio"
+	"github.com/buddhistpirate/guerillaRadio"
 	"os"
 )
 
